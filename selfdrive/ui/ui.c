@@ -406,10 +406,6 @@ static void ui_init(UIState *s) {
   assert(s->thermal_sock);
   s->thermal_sock_raw = zsock_resolve(s->thermal_sock);
 
-  s->gps_sock = zsock_new_sub(">tcp://127.0.0.1:8032", "");
-  assert(s->gps_sock);
-  s->gps_sock_raw = zsock_resolve(s->gps_sock);
-  
   s->model_sock = zsock_new_sub(">tcp://127.0.0.1:8009", "");
   assert(s->model_sock);
   s->model_sock_raw = zsock_resolve(s->model_sock);
@@ -1923,8 +1919,6 @@ static void ui_update(UIState *s) {
       zmq_msg_t msg;
       err = zmq_msg_init(&msg);
       assert(err == 0);
-      err = zmq_msg_recv(&msg, s->gps_sock_raw, 0);
-      assert(err >= 0);
 
       struct capn ctx;
       capn_init_mem(&ctx, zmq_msg_data(&msg), zmq_msg_size(&msg), 0);
