@@ -95,7 +95,7 @@ managed_processes = {
   "proclogd": ("selfdrive/proclogd", ["./proclogd"]),
   "boardd": ("selfdrive/boardd", ["./boardd"]),   # not used directly
   "pandad": "selfdrive.pandad",
-  "ui": ("selfdrive/ui", ["./ui"]),
+  "ui": ("selfdrive/ui", ["./start.sh"]),
   "calibrationd": "selfdrive.locationd.calibrationd",
   "visiond": ("selfdrive/visiond", ["./visiond"]),
   "sensord": ("selfdrive/sensord", ["./sensord"]),
@@ -345,8 +345,8 @@ def manager_thread():
         kill_managed_process(p)
 
     # check the status of all processes, did any of them die?
-    #for p in running:
-    #  cloudlog.debug("   running %s %s" % (p, running[p]))
+    for p in running:
+      cloudlog.debug("   running %s %s" % (p, running[p]))
 
     # is this still needed?
     if params.get("DoUninstall") == "1":
@@ -448,8 +448,6 @@ def main():
   if os.getenv("NOCONTROL") is not None:
     del managed_processes['controlsd']
     del managed_processes['radard']
-  if os.getenv("DEFAULTD") is not None:
-    managed_processes["controlsd"] = "selfdrive.controls.defaultd"
 
   # support additional internal only extensions
   try:
@@ -521,4 +519,3 @@ if __name__ == "__main__":
   main()
   # manual exit because we are forked
   sys.exit(0)
-
