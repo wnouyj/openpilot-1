@@ -489,7 +489,7 @@ void bb_ui_draw_measures_left( UIState *s, int bb_x, int bb_y, int bb_w ) {
 
 
 		// gps accuracy is always in meters
-		snprintf(val_str, sizeof(val_str), "%.2f", (s->b.gpsAccuracy*100.0));
+		snprintf(val_str, sizeof(val_str), "%.2f", (s->b.gpsAccuracy));
 		snprintf(uom_str, sizeof(uom_str), "m");;
 		bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "GPS PREC", 
 				bb_rx, bb_ry, bb_uom_dx,
