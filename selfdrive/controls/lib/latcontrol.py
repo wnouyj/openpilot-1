@@ -56,7 +56,7 @@ class LatControl(object):
     self.manual_Steering_Offset = 0.0  # Set a steering wheel offset. (Should this be * steering ratio to get the steering wheel angle?)
     self.variableSteerRatio = 0.0      # Used to store the calculated steering ratio
     self.angle_Check = 0.0             # Used for desired tire/car angle
-    self.vsrMSlope = 0.0               # Used for slope intercept formula
+    self.vsrSlope = 0.0               # Used for slope intercept formula
     self.vsrYIntercept = 0.0           # Used for slope intercept formula
     
   def reset(self):
@@ -96,11 +96,11 @@ class LatControl(object):
       elif self.vsrWindowLow < abs(self.angle_Check) < self.vsrWindowHigh:  # The VSR transition zone
         # Begin the _variable_ part
         # Find the slope of the line from the start of the VSR window to the end of the window - ( m = (y1 - y) / (x1 - x) )
-        self.vsrMSlope = (self.lowSteerRatio - CP.steerRatio) / (self.vsrWindowLow - self.vsrWindowHigh)
+        self.vsrSlope = (self.lowSteerRatio - CP.steerRatio) / (self.vsrWindowLow - self.vsrWindowHigh)
         # Solve for b (y-intercept) - (b = y - mx)
-        self.vsrYIntercept = (CP.steerRatio - self.vsrMSlope) * self.vsrWindowHigh
+        self.vsrYIntercept = (CP.steerRatio - self.vsrSlope) * self.vsrWindowHigh
         # Use b to find y - (y = mx + b)
-        self.variableSteerRatio = (self.vsrMSlope * self.angle_Check) + self.vsrYIntercept
+        self.variableSteerRatio = (self.vsrSlope * self.angle_Check) + self.vsrYIntercept
       else:                                                 # The angle is in the quick zone so do nothing
         self.variableSteerRatio = CP.steerRatio             # Use steerRatio from interface.py
 
