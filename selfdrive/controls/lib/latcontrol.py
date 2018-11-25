@@ -108,10 +108,10 @@ class LatControl(object):
       if active:
         delta_desired = self.mpc_solution[0].delta[1]
       else:                   # Add a steering offset vs recalibrating steering sensor so it reads near 0
-        delta_desired = math.radians((self.angle_Check + self.manual_Steering_Offset) / self.variableSteerRatio)
+        delta_desired = math.radians(self.angle_Check) / self.variableSteerRatio
       self.cur_state[0].delta = delta_desired
 
-      self.angle_steers_des_mpc = float(math.degrees(delta_desired * self.variableSteerRatio) + angle_offset)
+      self.angle_steers_des_mpc = float(math.degrees(delta_desired * self.variableSteerRatio) + angle_offset + self.manual_Steering_Offset)
       self.angle_steers_des_time = cur_time
       self.mpc_updated = True
 
