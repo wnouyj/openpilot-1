@@ -50,15 +50,15 @@ class LatControl(object):
     self.angle_steers_des_time = 0.0
 
     # For Variable Steering Ratio
-    self.lowSteerRatio = 6.5           # Set the lowest possible steering ratio allowed
+    self.lowSteerRatio = 6.0           # Set the lowest possible steering ratio allowed
     self.vsrWindowLow = 0.3            # Set the tire/car angle low-end used for VSR (vsrWindowLow - is same as lowSteerRatio)
-    self.vsrWindowHigh = 1.0           # Set the tire/car angle high-end (vsrWindowHigh + is same as CP.steerRatio / interface.py)
+    self.vsrWindowHigh = 0.75          # Set the tire/car angle high-end (vsrWindowHigh + is same as CP.steerRatio / interface.py)
     self.manual_Steering_Offset = 0.0  # Set a steering wheel offset. (Should this be * steering ratio to get the steering wheel angle?)
     self.variableSteerRatio = 0.0      # Used to store the calculated steering ratio
     self.angle_Check = 0.0             # Used for desired tire/car angle
-    self.vsrSlope = 0.0               # Used for slope intercept formula
+    self.vsrSlope = 0.0                # Used for slope intercept formula
     self.vsrYIntercept = 0.0           # Used for slope intercept formula
-    
+
   def reset(self):
     self.pid.reset()
 
@@ -101,6 +101,11 @@ class LatControl(object):
         self.vsrYIntercept = (CP.steerRatio - self.vsrSlope) * self.vsrWindowHigh
         # Use b to find y - (y = mx + b)
         self.variableSteerRatio = (self.vsrSlope * self.angle_Check) + self.vsrYIntercept
+        if not self.lowSteerRatio <= self.variableSteerRatio <= CP.steerRatio:   # Sanity/safety check
+          if self.variableSteerRatio < self.lowSteerRatio:
+            self.variableSteerRatio = self.lowSteerRatio    # Reset to the low ratio
+          elif self.variableSteerRatio > CP.steerRatio:
+            self.variableSteerRatio = CP.steerRatio         # Reset to steerRatio from interface.py
       else:                                                 # The angle is in the quick zone so do nothing
         self.variableSteerRatio = CP.steerRatio             # Use steerRatio from interface.py
 
