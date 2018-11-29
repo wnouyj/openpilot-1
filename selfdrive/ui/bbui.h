@@ -829,7 +829,7 @@ void bb_ui_init(UIState *s) {
     //BB Load Images
     s->b.img_logo = nvgCreateImage(s->vg, "../assets/img_spinner_comma.png", 1);
     s->b.img_logo2 = nvgCreateImage(s->vg, "../assets/img_spinner_comma2.png", 1);
-    s->b.img_car = nvgCreateImage(s->vg, "../assets/img_car_tesla.png", 1);
+    s->b.img_car = nvgCreateImage(s->vg, "../assets/img_car_ferrari.png", 1);
 }
 
 void bb_ui_play_sound( UIState *s, int sound) {
