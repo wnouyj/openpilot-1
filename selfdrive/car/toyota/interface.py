@@ -80,8 +80,8 @@ class CarInterface(object):
       stop_and_go = True
       ret.safetyParam = 66  # see conversion factor for STEER_TORQUE_EPS in dbc file
       ret.wheelbase = 2.70
-      ret.steerRatio = 15.00   # unknown end-to-end spec
-      tire_stiffness_factor = 1.0
+      ret.steerRatio = 13.40   # unknown end-to-end spec
+      tire_stiffness_factor = 0.725
       ret.mass = 3370 * CV.LB_TO_KG + std_cargo
       ret.steerKpV, ret.steerKiV = [[0.369,0.397,0.418], [0.0056,0.0093,0.0121]]
       ret.steerKf = 0.00007818594   # full torque for 10 deg at 80mph means 0.00007818594
@@ -148,7 +148,7 @@ class CarInterface(object):
       ret.steerKpV, ret.steerKiV = [[0.6], [0.05]]
       ret.steerKf = 0.00006
 
-    ret.steerRateCost = 1.
+    ret.steerRateCost = 0.75
     ret.centerToFront = ret.wheelbase * 0.44
 
     ret.longPidDeadzoneBP = [0., 9.]
